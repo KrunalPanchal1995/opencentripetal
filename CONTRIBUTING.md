@@ -59,6 +59,12 @@ GitHub prints a link; open it and click **Create pull request**. In the descript
 ## 8. Review
 A mentor reviews your PR and may ask for changes. That is normal. Push more commits to the same branch and the PR updates. When it is approved it is merged. You are now a contributor.
 
+## Write a new session with Claude (optional)
+This repo ships the `socratic-mastery-tutor` skill in `.claude/skills/`. In [Claude Code](https://claude.com/claude-code), open this folder and type
+`/socratic-mastery-tutor`, then ask for the next session, for example: "Write Session 4 on the first roadmap milestone, in the same format as
+Sessions 1-3." Read what it writes, run `python start.py test`, and open a pull request like any other change. The finished
+Target code is private, so the skill teaches the path; the code is yours to write.
+
 ## Rules of the road
 - One issue per pull request. Do not mix unrelated changes.
 - Keep to the style of the surrounding code. Short functions, clear names, comments that explain *why*.
