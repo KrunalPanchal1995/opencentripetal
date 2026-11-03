@@ -22,7 +22,7 @@
 In a car going round a bend you feel pressed against the door, as if something throws you outward. But when the door is open you do not fly outward along the radius: you go straight on while the car turns away. So what really happens? Something must push the car inward all the time, and the question for this session is how hard it has to push for a given speed and radius.
 
 ## B. Concept and theory
-Speed is how fast you move; velocity also has a direction. On a circle the speed can be constant while the direction keeps changing, so the velocity changes and there is an acceleration. It points to the centre of the circle and is called the centripetal acceleration (centripetal means centre-seeking). Newton's second law says a force F = m a is needed to produce it. So the inward force needed is F = m v^2 / r. Doubling the speed needs four times the force; halving the radius needs twice the force. Nothing pushes outward: when the inward push stops (a cut string, an icy road), the object moves along the straight tangent, which from the centre looks like moving outward.
+Speed is how fast you move; velocity also has a direction. On a circle the speed can be constant while the direction keeps changing, so the velocity changes and there is an acceleration. It points to the centre of the circle and is called the centripetal acceleration (centripetal means centre-seeking). Newton's second law says a force F = m a is needed to produce it. So the inward force needed is F = m v^2 / r. Doubling the speed needs four times the force; halving the radius needs twice the force. Nothing pushes outward: when the inward push stops (a cut string, an icy road), the object moves along the straight tangent, which, seen from the centre, looks like moving away from it.
 
 | Symbol | Meaning | Unit |
 |---|---|---|
@@ -70,7 +70,7 @@ Run the lesson (`python start.py 1`), then open the live app: [Session 1: the in
 
 **Answer.** a = 2 m/s^2 and F = 2000 N; doubling the speed gives 8000 N and halving the radius gives 4000 N.
 
-**Experiment.** Whirl a small ball on a string in a horizontal circle (outdoors, a light ball, a clear space) and time 10 turns to find the speed v = 2 pi r / T; then compare the pull you feel on the string at two speeds. You will feel roughly four times the pull at double the speed. The model is exact for a perfect circle at constant speed; the real ball sags a little below the horizontal because of gravity and speeds up and slows down, which is why a hand-held experiment only agrees roughly.
+**Experiment.** Whirl a small ball on a string in a horizontal circle (outdoors, a light ball, a clear space) and time 10 turns and divide by 10 to get the time T of one turn, then find the speed v = 2 pi r / T; then compare the pull you feel on the string at two speeds. You will feel roughly four times the pull at double the speed. The model is exact for a perfect circle at constant speed; the real ball sags a little below the horizontal because of gravity and speeds up and slows down, which is why a hand-held experiment only agrees roughly.
 
 ## F. Assessment and design challenge
 **Question type A: Conceptual.** A passenger says: 'the car pushes me outward on the bend'. Explain what is really happening, and say what the door does.
@@ -88,6 +88,7 @@ Think about what the passenger's body would do if nothing pushed it, and which o
 Nothing pushes the passenger outward. By inertia the body tends to keep moving in a straight line at constant velocity. The car turns inward, so the door (and the seat) moves toward the passenger and presses inward on the body, giving it the inward acceleration v^2 / r. The passenger feels that contact force from the door and interprets it as being thrown outward. If the door were open, the passenger would move straight along the tangent, which is away from the centre but not along the radius.
 
 </details>
+
 **Question type B: Numerical.** A car of 800 kg drives at 15 m/s round a bend of radius 30 m. Find the acceleration and the inward force, and compare the force with the weight of the car.
 
 <details>
@@ -103,6 +104,7 @@ a = v^2 / r first, then F = m a; weight = m g with g = 9.81 m/s^2.
 a = 15^2 / 30 = 225 / 30 = 7.5 m/s^2. F = 800 * 7.5 = 6000 N. Weight = 800 * 9.81 = 7848 N, so F is about 0.76 of the weight. Sanity check: units are m^2/s^2 divided by m, which is m/s^2, and kg * m/s^2 is N. A push of 0.76 of the weight is a very sharp bend: ordinary tyres on dry road can only supply about 0.7 to 0.9 of the weight, so this is close to the limit.
 
 </details>
+
 **Question type C: Graph and simulation interpretation.** On the graph of inward force against speed for a 1000 kg car on r = 50 m, what is the force at 10 m/s and at 20 m/s? What shape is the curve and why?
 
 <details>
@@ -118,6 +120,7 @@ Use F = m v^2 / r for each speed and compare the two values.
 At 10 m/s the force is 2000 N (2 kN); at 20 m/s it is 8000 N (8 kN). The curve is a parabola, because F is proportional to the square of v: doubling v multiplies F by 4. The curve for twice the radius lies below it at half the height at every speed.
 
 </details>
+
 **Question type D: Design and optimisation challenge.** Design: a 0.5 kg ball is whirled on a string of radius 0.8 m. The string breaks at 60 N. What is the largest speed you can allow, and what speed do you choose if the string should never carry more than half its breaking force?
 
 <details>
@@ -139,7 +142,7 @@ Score yourself with [RUBRIC.md](../../RUBRIC.md). Print the [activity sheet](act
 ## Common misconceptions
 | Common misconception | What is actually true |
 |---|---|
-| There is an outward 'centrifugal' force pushing the car off the road. | Nothing pushes outward. The car goes straight on (inertia) unless an inward force bends its path; sliding off the road is the loss of the inward force. |
+| There is an outward 'centrifugal' force pushing the car off the road. | Nothing pushes outward. The car goes straight on (inertia) unless an inward force bends its path; the car slides off when the road can no longer supply the inward force. |
 | At constant speed there is no acceleration. | Acceleration is a change of velocity, and velocity includes direction. On a circle the direction changes all the time, so there is an acceleration v^2 / r towards the centre. |
 | Doubling the speed doubles the force needed. | The force goes with v squared, so doubling the speed needs four times the force. |
 | A ball released from a circle flies outward along the radius. | It moves along the tangent, in a straight line at the speed it had. |
