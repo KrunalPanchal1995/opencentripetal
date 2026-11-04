@@ -180,6 +180,60 @@ def grip_loss_speed(R, mu, a_long, v_start=3.0, T=40.0, dt=0.01):
 
 
 # %% [markdown]
+# ## Step 3b: tall vehicles tip before they slide
+# The point-mass car cannot roll over. A real vehicle has a centre of gravity (CG) at height `h`
+# above the road and wheels a *track width* `T` apart. In a bend the road pushes sideways on the
+# tyres (friction) at road level while the "outward" inertia acts at the CG, so the outer wheels
+# carry more load and the inner wheels less (*lateral load transfer*). Taking moments about the CG
+# for a vehicle on a road banked at `theta`, the inner-wheel load is
+#
+#     N_in = N / 2 - F h / T,    N = m (g cos(theta) + a sin(theta)),   F = m (a cos(theta) - g sin(theta)),
+#
+# with a = v**2 / R. The vehicle **tips** when N_in reaches zero, i.e. when F / N = T / (2 h) = s,
+# the *static stability factor*. It **slides** when F / N = mu. These are the same condition with s
+# and mu swapped, so the speeds have the same form:
+#
+#     v_slide**2 = g R (tan(theta) + mu) / (1 - mu tan(theta)),   v_tip**2 = g R (tan(theta) + s) / (1 - s tan(theta)),
+#
+# and the vehicle that fails first is the one with the smaller of mu and s: **it tips first when
+# T / (2 h) < mu**. (Rigid vehicle, steady speed, no suspension roll, no braking: a worst case
+# simplification; a soft suspension makes the real tip speed lower.)
+
+# %%
+def static_stability(track, h_cg):
+    """s = T / (2 h): the lateral acceleration, in g, at which the inner wheels lift."""
+    if track <= 0 or h_cg <= 0:
+        raise ValueError("track width and CG height must be positive")
+    return track / (2.0 * h_cg)
+
+
+def tip_speed(R, track, h_cg, theta=0.0):
+    """Speed (m/s) at which the inner wheels lift on a curve of radius R, road banked at theta (rad)."""
+    s, t = static_stability(track, h_cg), math.tan(theta)
+    return math.sqrt(G * R * (t + s) / (1 - s * t)) if s * t < 1 else math.inf
+
+
+def slide_speed(R, mu, theta=0.0):
+    """Speed (m/s) at which the tyres lose grip (the top speed of Session 2) with no braking."""
+    return analytic_limits(R, mu, theta)[1]
+
+
+def inner_wheel_share(v, R, track, h_cg, theta=0.0):
+    """Fraction of the vehicle's road-normal load carried by the inner wheels at speed v (0 = lifting)."""
+    a = v * v / R
+    N = G * math.cos(theta) + a * math.sin(theta)
+    F = a * math.cos(theta) - G * math.sin(theta)
+    return 0.5 - F * h_cg / (track * N)
+
+
+def slide_or_tip(R, mu, track, h_cg, theta=0.0):
+    """Both limit speeds and which one comes first as the speed rises."""
+    vs, vt = slide_speed(R, mu, theta), tip_speed(R, track, h_cg, theta)
+    return {"v_slide": vs, "v_tip": vt, "first": "tips" if vt < vs else "slides", "v_limit": min(vs, vt),
+            "stability": static_stability(track, h_cg)}
+
+
+# %% [markdown]
 # ## Step 4: a roller-coaster loop (vertical circle)
 # At the top of a loop of radius r the track pushes down with N and gravity also points down:
 # `N + m g = m v**2 / r`. The cart stays on the track while N >= 0, so the minimum speed at the top
@@ -287,6 +341,40 @@ if __name__ == "__main__":
           f"speed {out['v'][-1] * 3.6:.1f} km/h; skid radius {skid_radius(v_in, mu):.1f} m")
     sp = skid_position(v_in, mu, R, 6.0)
     print(f"  analytic skid circle puts it at ({sp[0]:.1f}, {sp[1]:.1f}) m, simulation ({out['x'][-1]:.1f}, {out['y'][-1]:.1f}) m")
+
+    # (e0) tall vehicles: slide speed against tip speed
+    print("slide or tip, R = 100 m, flat road (km/h):")
+    for name, mu_, trk, hh in (("sports car T 1.5 h 0.5, dry", 0.8, 1.5, 0.5), ("tall van T 1.7 h 1.3, dry", 0.8, 1.7, 1.3), ("tall van T 1.7 h 1.3, wet", 0.4, 1.7, 1.3)):
+        so = slide_or_tip(100.0, mu_, trk, hh)
+        print(f"  {name:28s} s = {so['stability']:.2f}: slides at {so['v_slide'] * 3.6:6.1f}, tips at {so['v_tip'] * 3.6:6.1f} -> {so['first']} first")
+    fig5, ax5 = plt.subplots(1, 2, figsize=(10.5, 4.2))
+    Rs = np.linspace(20, 250, 60)
+    for (name, trk, hh), col, ls in ((("low car (T 1.5 m, h 0.5 m)", 1.5, 0.5), "#003f7f", "-"), (("tall van (T 1.7 m, h 1.3 m)", 1.7, 1.3), "#c86a00", "-")):
+        ax5[0].plot(Rs, [3.6 * tip_speed(x, trk, hh) for x in Rs], color=col, ls=ls, lw=2, label=f"tips: {name}")
+    ax5[0].plot(Rs, [3.6 * slide_speed(x, 0.8) for x in Rs], "k-", lw=2, label="slides: dry road, mu 0.8")
+    ax5[0].plot(Rs, [3.6 * slide_speed(x, 0.4) for x in Rs], "k--", lw=2, label="slides: wet road, mu 0.4")
+    ax5[0].set_xlabel("curve radius R (m)")
+    ax5[0].set_ylabel("limit speed (km/h)")
+    ax5[0].set_title("The lower curve decides: the van tips on dry road, slides on wet", fontsize=9)
+    ax5[0].grid(alpha=0.3)
+    ax5[0].legend(fontsize=7.5)
+    ss = np.linspace(0.4, 2.0, 100)
+    mm = np.linspace(0.1, 1.2, 100)
+    ax5[1].fill_between(ss, ss, 1.2, color="#d81b60", alpha=0.25, label="tips first (s < mu)")
+    ax5[1].fill_between(ss, 0.1, ss, color="#003f7f", alpha=0.20, label="slides first (s > mu)")
+    ax5[1].plot(ss, ss, "k-")
+    for name, sv, mv in (("low car", 1.5, 0.8), ("tall van", 0.654, 0.8), ("tall van, wet", 0.654, 0.4)):
+        ax5[1].plot(sv, mv, "o", color="k")
+        ax5[1].annotate(name, (sv, mv), (sv + 0.04, mv + 0.04), fontsize=8)
+    ax5[1].set_xlim(0.4, 2.0)
+    ax5[1].set_ylim(0.1, 1.2)
+    ax5[1].set_xlabel("static stability factor s = T / (2 h)")
+    ax5[1].set_ylabel("friction coefficient mu")
+    ax5[1].set_title("Which comes first?", fontsize=9)
+    ax5[1].grid(alpha=0.3)
+    ax5[1].legend(fontsize=8, loc="upper right")
+    fig5.tight_layout()
+    fig5.savefig(OUT / "slide_or_tip.png", dpi=120)
 
     # (e) loop
     for r in (5.0, 10.0, 20.0):

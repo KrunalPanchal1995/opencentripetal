@@ -62,8 +62,18 @@ The first figure shows two cars entering the wet curve (mu 0.4, R = 100 m). The 
 
 *Top view: the car entering at 0.9 of the limit holds the lane; entering at 1.3 times the limit it follows a wide circle.*
 
+**Tall vehicles tip before they slide.** The point-mass car cannot roll over. A real vehicle has its centre of gravity at height h above the road and wheels a track width T apart. The road pushes sideways on the tyres at road level while the outward inertia acts at the centre of gravity, so the outer wheels take more load and the inner wheels less. The inner wheels carry N_in = N / 2 - F h / T (N the load on the road, F the sideways friction force needed) and lift when it reaches zero, that is when F / N = T / (2 h), the *static stability factor* s. The tyres slide when F / N = mu. The two conditions have the same form, so on a road banked at theta
+
+v_slide = sqrt(g R (tan(theta) + mu) / (1 - mu tan(theta))) and v_tip = sqrt(g R (tan(theta) + s) / (1 - s tan(theta))),
+
+and as the speed rises the vehicle **tips first exactly when T / (2 h) < mu**. `slide_or_tip(R, mu, track, h_cg, theta)` reports both speeds and which comes first. At R = 100 m on a flat road a low car (T = 1.5 m, h = 0.5 m, s = 1.50) slides at 100.9 km/h and would tip only at 138.1 km/h. A tall van (T = 1.7 m, h = 1.3 m, s = 0.65) tips at 91.2 km/h, before the dry-road slide at 100.9 km/h, but on a wet road (mu = 0.4) it slides first at 71.3 km/h. The checkpoint confirms the inner-wheel load is exactly zero at the tip speed, finds the same speed by bisection on the wheel load (flat and banked), and checks the rule on 300 random vehicles. This is a worst-case simplification: a rigid vehicle at steady speed with no braking and no suspension roll, so a soft suspension tips earlier than predicted. In the app, open **Slide or tip?**, choose the *Low car* and *Tall van* presets, and change the track width and the height of the centre of gravity.
+
+![Left: tip and slide speeds against radius for a low car and a tall van on dry and wet roads. Right: which comes first depends on s = T / (2 h) against mu.](../../docs/figures/s03_slide_or_tip.png)
+
+*Left: tip and slide speeds against radius for a low car and a tall van on dry and wet roads. Right: which comes first depends on s = T / (2 h) against mu.*
+
 ## D. Interactive simulation
-Run the lesson (`python start.py 3`), then open the live app: [Session 3: the friction circle and the grip limit](https://krunalpanchal1995.github.io/opencentripetal/session-03/) (or `app.html` in this folder). Open the friction circle view: the dot is what the driver asks of the tyres. Slide the speed up until the dot leaves the circle, then add braking and see how much sooner it leaves. Open the radius view and compare dry, wet and ice.
+Run the lesson (`python start.py 3`), then open the live app: [Session 3: the friction circle and the grip limit](https://krunalpanchal1995.github.io/opencentripetal/session-03/) (or `app.html` in this folder). Open the friction circle view: the dot is what the driver asks of the tyres. Slide the speed up until the dot leaves the circle, then add braking and see how much sooner it leaves. Open the radius view and compare dry, wet and ice. Open **Slide or tip?**: the blue curve is the sliding limit and the orange curve is the tipping limit for your track width and centre-of-gravity height; whichever is lower decides, and the readout says whether the vehicle slides, rolls over or stays on the road.
 
 **Challenge.** On a road with mu 0.4 or less, radius at most 60 m, find a bank angle at which a car braking at 2 m/s^2 or more still grips at 70 km/h or more.
 

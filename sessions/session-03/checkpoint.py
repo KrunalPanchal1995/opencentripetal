@@ -78,6 +78,45 @@ def run_checks(L):
     table = [L.posted_speed_limit(80.0, 4.0, 0.35, m) for m in (0.6, 0.7, 0.75, 0.8, 0.9)]
     checks.append((f"margin table 0.6 to 0.9 gives signs {table} (35, 45, 45, 50, 55)", table == [35, 45, 45, 50, 55]))
     checks.append(("the 45 km/h sign slides on ice (mu 0.1): a wet-road sign is not an ice-road sign", not L.holds(45 / 3.6, 80.0, 0.1, math.radians(4))))
+    # ---- tall vehicles: tip speed and slide speed ------------------------------------------------
+    car = L.slide_or_tip(100.0, 0.8, 1.5, 0.5)
+    van = L.slide_or_tip(100.0, 0.8, 1.7, 1.3)
+    van_wet = L.slide_or_tip(100.0, 0.4, 1.7, 1.3)
+    kmh = lambda x: 3.6 * x
+    checks.append((f"R = 100 m, flat: low car slides at {kmh(car['v_slide']):.1f} and tips at {kmh(car['v_tip']):.1f} km/h (100.9, 138.1) so it slides first",
+                   abs(kmh(car['v_slide']) - 100.9) < 0.05 and abs(kmh(car['v_tip']) - 138.1) < 0.05 and car["first"] == "slides"))
+    checks.append((f"tall van (T 1.7, h 1.3, s = {van['stability']:.3f}): tips at {kmh(van['v_tip']):.1f} km/h before it would slide at {kmh(van['v_slide']):.1f} on a dry road, but slides first at {kmh(van_wet['v_slide']):.1f} on a wet one",
+                   abs(kmh(van['v_tip']) - 91.2) < 0.05 and van["first"] == "tips" and van_wet["first"] == "slides" and abs(kmh(van_wet['v_slide']) - 71.3) < 0.05))
+    checks.append(("flat road: tip speed is sqrt(g R T / (2 h)) (hand formula)",
+                   abs(L.tip_speed(80.0, 1.6, 0.9) - math.sqrt(L.G * 80.0 * 1.6 / 1.8)) < 1e-12))
+    shares_ok = True
+    for (Rr, T_, h_, th_) in ((100.0, 1.5, 0.5, 0.0), (60.0, 1.7, 1.3, 0.0), (80.0, 1.8, 1.0, math.radians(8)), (150.0, 2.0, 1.6, math.radians(15))):
+        shares_ok &= abs(L.inner_wheel_share(L.tip_speed(Rr, T_, h_, th_), Rr, T_, h_, th_)) < 1e-9
+        lo_, hi_ = 0.0, 100.0                                   # independent bisection on the load transfer
+        for _ in range(100):
+            mid = 0.5 * (lo_ + hi_)
+            lo_, hi_ = (mid, hi_) if L.inner_wheel_share(mid, Rr, T_, h_, th_) > 0 else (lo_, mid)
+        shares_ok &= abs(0.5 * (lo_ + hi_) - L.tip_speed(Rr, T_, h_, th_)) < 1e-6
+    checks.append(("the inner-wheel load is exactly zero at the tip speed, and bisection on the wheel load finds the same speed (flat and banked)", shares_ok))
+    checks.append(("at rest on a flat road each side carries half the load", abs(L.inner_wheel_share(0.0, 100.0, 1.5, 0.5) - 0.5) < 1e-12))
+    rng_t = np.random.default_rng(2)
+    rule_ok = True
+    for _ in range(300):
+        mu_, T_, h_, th_ = rng_t.uniform(0.1, 1.2), rng_t.uniform(1.2, 2.2), rng_t.uniform(0.4, 1.6), math.radians(rng_t.uniform(0, 12))
+        so = L.slide_or_tip(rng_t.uniform(30, 250), mu_, T_, h_, th_)
+        rule_ok &= (so["first"] == "tips") == (L.static_stability(T_, h_) < mu_)
+    checks.append(("300 random vehicles, roads and banks: the vehicle tips first exactly when T / (2 h) < mu", rule_ok))
+    eq = L.slide_or_tip(100.0, 0.75, 1.5, 1.0)
+    checks.append(("when T / (2 h) = mu the two speeds are equal", abs(eq["v_slide"] - eq["v_tip"]) < 1e-9))
+    checks.append(("banking raises the tip speed, and a track so wide that s tan(theta) >= 1 cannot tip at all",
+                   L.tip_speed(100.0, 1.5, 0.9, math.radians(10)) > L.tip_speed(100.0, 1.5, 0.9) and L.tip_speed(100.0, 2.4, 0.3, math.radians(20)) == math.inf))
+    bad = 0
+    for args in ((0.0, 0.5), (1.5, 0.0), (-1.5, 0.5)):
+        try:
+            L.static_stability(*args)
+        except ValueError:
+            bad += 1
+    checks.append(("a zero or negative track width or CG height is refused", bad == 3))
     return checks
 
 
