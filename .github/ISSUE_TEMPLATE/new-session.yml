@@ -1,5 +1,5 @@
 name: Propose a new session
-description: Suggest Session 4 or later on the roadmap
+description: Suggest Session 5 or later on the roadmap
 labels: ["feature", "intermediate"]
 body:
   - type: input

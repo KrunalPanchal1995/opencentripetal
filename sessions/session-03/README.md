@@ -180,4 +180,4 @@ Score yourself with [RUBRIC.md](../../RUBRIC.md). Print the [activity sheet](act
 1. Do the three coding tasks in [exercises.md](exercises.md).
 2. Run `python start.py 3` again after your changes. It ends with the checkpoint; when it prints `PASS`, you are done. (Checkpoint only: `python start.py check 3`.)
 
-Next: the [roadmap](../../promo/roadmap.md). Session 4 is yours to build.
+Next: [Session 4: A transition spiral into the curve](../session-04/README.md).

@@ -1,7 +1,7 @@
 [project]
 name = "opencentripetal"
 version = "0.1.0"
-description = "Learn why cars slide on bends and how banking fixes it: centripetal force, friction and a validated simulation, in 3 sessions."
+description = "Learn why cars slide on bends and how banking fixes it: centripetal force, friction and a validated simulation, in 4 sessions."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 ENV = dict(os.environ, MPLBACKEND="Agg", PYTHONIOENCODING="utf-8")
 
 
-@pytest.mark.parametrize("n", ["01", "02", "03"])
+@pytest.mark.parametrize("n", ["01", "02", "03", "04"])
 @pytest.mark.parametrize("script", ["lesson.py", "checkpoint.py"])
 def test_session(n, script):
     path = ROOT / "sessions" / f"session-{n}" / script

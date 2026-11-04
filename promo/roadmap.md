@@ -2,16 +2,6 @@
 
 This is the path, not the code. Each milestone says what you learn, what you build, and how you know it works. Pick one and open a pull request. See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-## Session 4: Transition spiral into the curve
-
-**You will learn:** Why real roads do not jump from a straight to a circle, and the clothoid whose curvature grows linearly with distance.
-
-**You will build:** A path made of a straight, a clothoid and an arc, followed by the Session 3 car.
-
-**Checkpoint (not met by the shipped code):** A spiral of length 40 m before a curve of radius 100 m at 20 m/s keeps the lateral jerk at v^3 / (R L) = 2.0 m/s^3 (the shipped car meets the curve with a step: the sideways acceleration jumps from 0 to 4 m/s^2 at once).
-
-**Difficulty:** intermediate
-
 ## Session 5: Weight transfer between left and right wheels
 
 **You will learn:** Why the outer wheels carry more load in a bend, and what that does to the grip.

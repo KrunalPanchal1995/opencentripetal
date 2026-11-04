@@ -1,7 +1,7 @@
 """One command to set up and run this repo. No activation of environments needed.
 
-    python start.py 1          run Session 1 (also: 2, 3) and its checkpoint
-    python start.py all        run all three sessions
+    python start.py 1          run Session 1 (also: 2, 3, 4) and its checkpoint
+    python start.py all        run all four sessions
     python start.py check 1    run only the checkpoint of Session 1
     python start.py run my.py  run your own file inside the private environment
     python start.py test       run every lesson and checkpoint (what CI does)
@@ -90,11 +90,11 @@ def session(n):
 
 def main(argv):
     what = argv[0] if argv else "1"
-    if what not in {"1", "2", "3", "all", "test", "setup", "check", "run"}:
+    if what not in {"1", "2", "3", "4", "all", "test", "setup", "check", "run"}:
         print(__doc__)
         return 2
-    if what == "check" and (len(argv) < 2 or argv[1] not in {"1", "2", "3"}):
-        print("Usage: python start.py check 1   (or 2, 3)")
+    if what == "check" and (len(argv) < 2 or argv[1] not in {"1", "2", "3", "4"}):
+        print("Usage: python start.py check 1   (or 2, 3, 4)")
         return 2
     if what == "run" and (len(argv) < 2 or not Path(argv[1]).exists()):
         print("Usage: python start.py run my_file.py   (the file must exist)")
@@ -109,7 +109,7 @@ def main(argv):
         return subprocess.call([str(vpy()), argv[1]], cwd=ROOT, env=env())
     if what == "test":
         return subprocess.call([str(vpy()), "-m", "pytest", "-q"], cwd=ROOT, env=dict(env(), MPLBACKEND="Agg"))
-    todo = [1, 2, 3] if what == "all" else [int(what)]
+    todo = [1, 2, 3, 4] if what == "all" else [int(what)]
     return max(session(n) for n in todo)
 
 

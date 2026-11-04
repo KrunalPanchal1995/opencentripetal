@@ -2,18 +2,18 @@
 
 [![Checks](https://github.com/KrunalPanchal1995/opencentripetal/actions/workflows/ci.yml/badge.svg)](https://github.com/KrunalPanchal1995/opencentripetal/actions/workflows/ci.yml) ![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square) ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square) [![Open in Colab](https://img.shields.io/badge/Colab-session%201-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/KrunalPanchal1995/opencentripetal/blob/main/sessions/session-01/lesson.ipynb) [![Live apps](https://img.shields.io/badge/live-apps-1f6feb?style=flat-square)](https://krunalpanchal1995.github.io/opencentripetal/)
 
-**Design a banked curve that grips at speed, in three sessions.**
+**Design a banked curve that grips at speed, in four sessions.**
 
 opencentripetal teaches circular motion and centripetal force through cars on curves: friction, banking and a friction-circle simulation, using only Python and a browser.
 
 - **Start from zero.** Session 1 needs only school arithmetic: one formula, a = v^2 / r.
 - **See it move.** Every session ships a slider app that runs in the browser, with labelled graphs.
 - **Know you got it right.** The simulation is validated against the analytic limits, and each session ends with a checkpoint that prints PASS or FAIL.
-- **Build the missing half.** The repo stops at Session 3 on purpose; the roadmap shows the path to the Target.
+- **Build the missing half.** The repo stops at Session 4 on purpose; the roadmap shows the path to the Target.
 
 [Target](#the-target) · [Who is this for](#who-is-this-for) · [Quick start](#quick-start) · [Sessions](#sessions) · [Roadmap](#roadmap) · [Contribute](#contribute) · [Explainer PDF](docs/explainer.pdf)
 
-> **This repo is incomplete on purpose.** Sessions 1 to 3 are here and fully working. The finished Target below is a preview of what the community can build next. We show you the path, not the code. Sessions 4 and up are yours.
+> **This repo is incomplete on purpose.** Sessions 1 to 4 are here and fully working. The finished Target below is a preview of what the community can build next. We show you the path, not the code. Sessions 5 and up are yours.
 
 ## The Target
 
@@ -81,6 +81,7 @@ Every session also opens in your browser with sliders (no install): [live apps](
 | 1 | [Going round a bend needs an inward push](sessions/session-01/README.md) | Level 1: conceptual interactive model | 60 min | [open](https://krunalpanchal1995.github.io/opencentripetal/session-01/) |
 | 2 | [Friction and banking supply the inward force](sessions/session-02/README.md) | Level 2: mathematical engineering model | 75 min | [open](https://krunalpanchal1995.github.io/opencentripetal/session-02/) |
 | 3 | [A simulated car on a curve, checked against the formulas](sessions/session-03/README.md) | Level 3: simulation and validation | 90 min | [open](https://krunalpanchal1995.github.io/opencentripetal/session-03/) |
+| 4 | [A transition spiral into the curve](sessions/session-04/README.md) | Level 3: simulation and validation | 90 min | [open](https://krunalpanchal1995.github.io/opencentripetal/session-04/) |
 
 Each session follows the same six steps: A real-world problem, B concept and theory, C visual explanation, D interactive simulation, E worked example and experiment, F assessment and design challenge. Each ends with `checkpoint.py`, which prints `PASS` or `FAIL` against reference numbers. Session 3 also contains the real-world mini-project: **Set the speed limit sign for a curve**.
 
@@ -91,14 +92,15 @@ flowchart LR
   S1[Session 1<br/>Going round a bend needs an inward push]
   S2[Session 2<br/>Friction and banking supply the inward force]
   S3[Session 3<br/>A simulated car on a curve, checked against the formulas]
-  R[Roadmap S4+<br/>YOU build this]
+  S4[Session 4<br/>A transition spiral into the curve]
+  R[Roadmap S5+<br/>YOU build this]
   T((Target))
-  S1 --> S2 --> S3 --> R --> T
+  S1 --> S2 --> S3 --> S4 --> R --> T
 ```
 
 | Folder or file | What is inside |
 |---|---|
-| `sessions/` | three sessions: README (A-F), `lesson.py`, notebook, live app, exercises, activity sheet, checkpoint |
+| `sessions/` | four sessions: README (A-F), `lesson.py`, notebook, live app, exercises, activity sheet, checkpoint |
 | `promo/` | the Target: media, live links, and the roadmap (path only) |
 | `docs/` | `explainer.tex` and the built `explainer.pdf` |
 | `tests/` | runs every lesson and checkpoint headless |
@@ -110,7 +112,6 @@ flowchart LR
 
 | Milestone | What you will build | Difficulty |
 |---|---|---|
-| Session 4: Transition spiral into the curve | A path made of a straight, a clothoid and an arc, followed by the Session 3 car. | intermediate |
 | Session 5: Weight transfer between left and right wheels | A car with centre of gravity height, track width and four tyre loads. | intermediate |
 | Session 6: Rollover before sliding | A rollover check added to the friction-circle limit. | advanced |
 | Session 7: Plan the speed round a whole circuit | A speed planner for a stadium circuit of two 100 m straights and two half circles of radius 30 m. | advanced |
