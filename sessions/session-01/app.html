@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Session 1: the inward push on a bend</title>
 <style>
-  :root { --bg:#ffffff; --fg:#14181f; --muted:#5b6472; --card:#f3f5f8; --accent:#1f6feb; --good:#1a7f37; --bad:#b42318; --line:#d7dce3; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0e1116; --fg:#e6e9ee; --muted:#9aa3b2; --card:#171b22; --accent:#58a6ff; --good:#3fb950; --bad:#f97066; --line:#2a313c; } }
+  :root { --bg:#ffffff; --fg:#14181f; --muted:#5b6472; --card:#f3f5f8; --accent:#003f7f; --good:#c86a00; --bad:#d81b60; --line:#d7dce3; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0e1116; --fg:#e6e9ee; --muted:#9aa3b2; --card:#171b22; --accent:#3b8fe0; --good:#ffc857; --bad:#e0457b; --line:#2a313c; } }
   * { box-sizing: border-box; }
   body { margin:0; padding:16px; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
   main { max-width: 780px; margin: 0 auto; }
@@ -121,7 +121,7 @@ if (graph === "top") {
   ctx.fillStyle = C.accent; ctx.fillRect(carx - 9, cary - 15, 18, 30);
   ctx.font = "12px system-ui"; ctx.textAlign = "right";
   ctx.fillStyle = C.bad; ctx.fillText("red: inward force F = m v^2 / r (the real push)", W - 10, 24);
-  ctx.fillStyle = C.good; ctx.fillText("green: velocity v (the car wants to go straight)", W - 10, 42);
+  ctx.fillStyle = C.good; ctx.fillText("orange: velocity v (the car wants to go straight)", W - 10, 42);
   ctx.fillStyle = C.muted; ctx.fillText("grey dashed: the felt 'outward throw' is inertia, not a force", W - 10, 60);
   ctx.textAlign = "left"; ctx.fillText("top view; dashed circle = the road, radius " + p.r + " m (centre marked)", 10, H - 10);
 } else {
